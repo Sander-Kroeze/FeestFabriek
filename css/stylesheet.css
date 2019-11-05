@@ -453,7 +453,7 @@ div div table tr td input:hover {
     size: 35px;
 }
 
-input[type=text], input[type=email],select {
+input[type=text], input[type=email],select, input[type=number] {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;

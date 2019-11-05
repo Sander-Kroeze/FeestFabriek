@@ -45,11 +45,24 @@ if (isset($_POST["betaalStatusSet"])) {
               </script>
          "
         ;
-    } else{
+    } elseif ($status === 'Retour') {
+        $query_updateArtikel = "UPDATE orders SET Retour = '$status' WHERE orders_ID = '$orderID'";
+        $db->exec($query_updateArtikel);
+
+        //  redirect je terug met een alert ----------------------------------------------------------->
+        echo "
+            <script>
+            alert('De order die is bijgewerkt: $orderID');
+            location.href='index.php?page=bestellingenBeherenForm';
+              </script>
+         "
+        ;
+    }
+    else{
         echo
         "
         <script>
-        alert('de ingeoverde gegevens zijn ongeldig');
+        alert('de ingevoerde gegevens zijn ongeldig');
         </script>
         "
         ;

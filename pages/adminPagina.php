@@ -1,6 +1,31 @@
 <?php
 if (isset($_SESSION["ID"])) {
     ?>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script>
+        $(function() {
+            $( "#email" ).autocomplete({
+                source: 'pages/search.php'
+            });
+        });
+    </script>
+<!--    <style>-->
+<!--        input[type=text], input[type=email],select {-->
+<!--            padding: 12px 20px;-->
+<!--            margin: 8px 0;-->
+<!--            display: inline-block;-->
+<!--            border: 1px solid #ccc;-->
+<!--            border-radius: 4px;-->
+<!--            box-sizing: border-box;-->
+<!--        }-->
+<!--    </style>-->
+
+
+
     <h2>ADMIN</h2>
 
     <div class="cart-center">
@@ -23,7 +48,7 @@ if (isset($_SESSION["ID"])) {
             </nav>
             <br><br><br>
             <div class="containerAdmin">
-                <form class="adminFrom1" method="POST" enctype="multipart/form-data" action="pages/LijstenGenererenForm.php">
+                <form class="adminFrom1" method="POST" enctype="multipart/form-data" action="pages/LijstenGenererenForm.php" autocomplete="on">
                     <h2>Lijsten</h2>
                     <div class="row">
                         <select class="test" name="waarde" required>
@@ -35,26 +60,26 @@ if (isset($_SESSION["ID"])) {
                         <input  class="prod-button" type="submit" id="submit" value=" Download Lijst " /><br>
                     </div>
                 </form>
-
-<!--                <form method="post" action="pages/LijstenGenererenForm.php">-->
-<!--                    <input type="submit" name="export" class="btn btn-success" value="Export" />-->
-<!--                </form>-->
             </div>
             <div class="containerAdmin">
+
                 <form class="adminFrom1" method="POST" enctype="multipart/form-data" action="">
                     <h2>Geeft korting</h2>
                     <div class="row">
-                        <input type="email" name="email" placeholder="email adres"/>
+                        <input type="email" name="email" id="email" placeholder="Vul een klant email in">
                         <input type="number" name="korting" placeholder="5" min="5" max="100"/>
                         <input type="hidden"  name="submit_korting" value="true" />
                         <input  class="prod-button" type="submit" id="submit" value=" Voeg toe " /><br>
                     </div>
                 </form>
+
+
+                <ul class="list-gpfrm" id="hdTuto_search"></ul>
             </div>
         </div>
     </div>
 <?php
-}else {
+} else {
     echo "
   <script>
     alert('U moet ingelogd zijn om deze pagina te bekjijken.');

@@ -17,7 +17,7 @@
 
 
 if ($waarde == 1) {
-    $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Bezorgen'";
+    $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Bezorgen' OR Retour = 'Retour'";
     $stmt = $db->prepare($setSql);
     $stmt->execute(array('Bezorgen'));
     header("Content-Disposition: attachment; filename=Lijst_Bezorgen.xls");
@@ -36,7 +36,7 @@ if ($waarde == 1) {
         ;
         exit;
     }else {
-        $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Ophalen'";
+        $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Ophalen' OR Retour = 'Retour'";
         $stmt = $db->prepare($setSql);
         $stmt->execute(array('Ophalen'));
     header("Content-Disposition: attachment; filename=Lijst_ophalen.xls");
@@ -44,7 +44,7 @@ if ($waarde == 1) {
 //    $setRec = mysqli_query($conn, $setSql);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $columnHeader = "Naam" . "\t" . "Achternaam" . "\t" . "Factuurnummer" . "\t" . "Totaalprijs";
+    $columnHeader = "Naam" . "\t" . "Achternaam" . "\t" . "Factuurnummer" . "\t" . "Adres en huisnummer" . "\t" . "Postcode" . "\t" . "Totaalprijs";
 
     $setData = '';
     $orderLength = sizeof($orders);
@@ -58,8 +58,10 @@ if ($waarde == 1) {
            $test = $value["Naam"] . "\t" .
            $value["Tussenvoegsel"] . " " . $value["Achternaam"] . "\t" .
            $value["orders_ID"] . "\t" .
+           $value["Adres"] . " " . $value["Huisnummer"] . "\t" .
+           $value["Postcode"] . "\t" .
            $kommaTotaalPrijs;
-           $rowData .= $test;
+           $rowData .= $test . "\n";
        }
        $setData .= trim($rowData) . "\n";
 

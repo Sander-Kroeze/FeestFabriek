@@ -80,23 +80,33 @@ if (isset($_SESSION["ID"])) {
                             <form action="" method="POST" enctype="multipart/form-data">
                                 <select class="test" name="bezorgStatus" onchange='this.form.submit()'>
                                     <?php
-                                    if ($order["BezorgStatus"] === 'In Magazijn') {
+                                    if ($order["Retour"] === 'Retour') {
                                         ?>
-                                        <option value="In Magazijn" selected>In Magazijn</option>
+                                        <option value="In Magazijn">In Magazijn</option>
                                         <option value="Onderweg">Onderweg</option>
                                         <option value="Bezorgd">Bezorgd</option>
+                                        <option value="Retour" selected>Retour</option>
+                                        <?php
+                                    }  elseif ($order["BezorgStatus"] === 'Magazijn') {
+                                        ?>
+                                        <option value="Bezorgd">Bezorgd</option>
+                                        <option value="Onderweg" >Onderweg</option>
+                                        <option value="In Magazijn" selected>In Magazijn</option>
+                                        <option value="Retour">Retour</option>
                                         <?php
                                     } elseif ($order["BezorgStatus"] === 'Onderweg') {
                                         ?>
                                         <option value="Onderweg" selected>Onderweg</option>
                                         <option value="In Magazijn" >In Magazijn</option>
                                         <option value="Bezorgd">Bezorgd</option>
+                                        <option value="Retour">Retour</option>
                                         <?php
                                     } else {
                                         ?>
                                         <option value="Bezorgd"selected>Bezorgd</option>
                                         <option value="Onderweg" >Onderweg</option>
                                         <option value="In Magazijn" >In Magazijn</option>
+                                        <option value="Retour" >Retour</option>
                                         <?php
                                     }
                                     ?>
