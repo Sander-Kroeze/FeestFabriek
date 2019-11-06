@@ -13,16 +13,6 @@ if (isset($_SESSION["ID"])) {
             });
         });
     </script>
-<!--    <style>-->
-<!--        input[type=text], input[type=email],select {-->
-<!--            padding: 12px 20px;-->
-<!--            margin: 8px 0;-->
-<!--            display: inline-block;-->
-<!--            border: 1px solid #ccc;-->
-<!--            border-radius: 4px;-->
-<!--            box-sizing: border-box;-->
-<!--        }-->
-<!--    </style>-->
 
 
 
@@ -53,8 +43,8 @@ if (isset($_SESSION["ID"])) {
                     <div class="row">
                         <select class="test" name="waarde" required>
                             <option value="0" selected>Selecteer een lijst</option>
-                            <option value="1">Lijst Bezorgers</option>
-                            <option value="2">Lijst Ophalen</option>
+                            <option value="1">Lijst Bezorging & Retours</option>
+                            <option value="2">Lijst Afhalen & Terugbrengen</option>
                         </select>
                         <input type="hidden"  name="submit_lijst" value="true" />
                         <input  class="prod-button" type="submit" id="submit" value=" Download Lijst " /><br>

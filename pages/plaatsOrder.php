@@ -62,11 +62,12 @@ class plaatsOrder {
         }
         $kommaTotaalPrijs = str_replace('.', ',', $totaalRond);
         $text = 'Je bestelling is geplaatst \n Als je bestelling geleverd word moet je: € ' . $kommaTotaalPrijs . ' betalen. \n Je korting bedraagt ' . $korting. '% op het totaal bedrag.';
-            session_destroy();
+        session_destroy();
         echo
         "
         <script>
         alert('$text');
+        location.href='index.php?page=cartForm';
         </script>
         "
         ;
@@ -125,11 +126,12 @@ class plaatsOrder {
 
         $kommaTotaalPrijs = str_replace('.', ',', $totaalBedrag);
         $text = 'Je bestelling is geplaatst \n Als je bestelling geleverd word moet je: € ' . $kommaTotaalPrijs. ' betalen.';
-            session_destroy();
+        session_destroy();
         echo
         "
         <script>
         alert('$text');
+        location.href='index.php?page=cartForm';
         </script>
         "
         ;
@@ -203,6 +205,7 @@ class plaatsOrder {
         "
         <script>
         alert('$text');
+        location.href='index.php?page=cartForm';
         </script>
         "
         ;

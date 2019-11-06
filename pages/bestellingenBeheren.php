@@ -33,8 +33,8 @@ if (isset($_SESSION["ID"])) {
                     <th>Bezorg Methode</th>
                     <th>Prijs</th>
                     <th>Betaal Status</th>
-                    <th>Bezorg Status</th>
-                    <th>Download</th>
+                    <th>Status</th>
+                    <th>Factuur</th>
                 </tr>
                 <?php
                 foreach ($orders as $order) {
@@ -77,6 +77,19 @@ if (isset($_SESSION["ID"])) {
                             </form>
                         </td>
                         <td>
+                            <?php
+                            $now = date("Y-m-d");
+                            $test = $order["OrderDatum"];
+                            $date1=date_create("$now");
+                            $date2=date_create("$test");
+                            $diff=date_diff($date1,$date2);
+                            $verschil =  $diff->format("%R%a");
+                            if( $verschil === '+1') {
+                                echo $verschil;
+                            } else {
+                                echo $verschil;
+                            }
+                            ?>
                             <form action="" method="POST" enctype="multipart/form-data">
                                 <select class="test" name="bezorgStatus" onchange='this.form.submit()'>
                                     <?php
@@ -85,28 +98,28 @@ if (isset($_SESSION["ID"])) {
                                         <option value="In Magazijn">In Magazijn</option>
                                         <option value="Onderweg">Onderweg</option>
                                         <option value="Bezorgd">Bezorgd</option>
-                                        <option value="Retour" selected>Retour</option>
+                                        <option value="Retour" selected>Op Retour</option>
                                         <?php
                                     }  elseif ($order["BezorgStatus"] === 'Magazijn') {
                                         ?>
                                         <option value="Bezorgd">Bezorgd</option>
                                         <option value="Onderweg" >Onderweg</option>
                                         <option value="In Magazijn" selected>In Magazijn</option>
-                                        <option value="Retour">Retour</option>
+                                        <option value="Retour">Op Retour</option>
                                         <?php
                                     } elseif ($order["BezorgStatus"] === 'Onderweg') {
                                         ?>
                                         <option value="Onderweg" selected>Onderweg</option>
                                         <option value="In Magazijn" >In Magazijn</option>
                                         <option value="Bezorgd">Bezorgd</option>
-                                        <option value="Retour">Retour</option>
+                                        <option value="Retour">Op Retour</option>
                                         <?php
                                     } else {
                                         ?>
                                         <option value="Bezorgd"selected>Bezorgd</option>
                                         <option value="Onderweg" >Onderweg</option>
                                         <option value="In Magazijn" >In Magazijn</option>
-                                        <option value="Retour" >Retour</option>
+                                        <option value="Retour" >Op Retour</option>
                                         <?php
                                     }
                                     ?>

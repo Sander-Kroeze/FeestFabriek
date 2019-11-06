@@ -6,7 +6,7 @@
             <tr>
                 <th>Afbeelding</th>
                 <th>Naam</th>
-                <th>Aantal</th>
+                <th>Aantal/Dagen</th>
                 <th>Prijs</th>
                 <th>Verwijder</th>
             </tr>
@@ -22,9 +22,10 @@
                     echo "<td><img class='product-img' src='img/$s' style='width: 100px'></td>"; ?>
                     <td><a style="cursor: pointer" onclick="location.href='index.php?page=artikelDetailForm&artikel=<?php echo $product["productID"]; ?>'" "></a><?php echo $product["productName"]; ?></td>
                 <?php
-                    echo "<td>" . $product["productQuantity"] . "</td>";
+
 
                 if ($product["productVerkoopwijze"] == 'Huur') {
+                    echo "<td>" . $product["productQuantity"] . "</td>";
                     $datetime1 = new DateTime($product["datumVan"]);
                     $datetime2 = new DateTime($product["datumTot"]);
                     $interval = $datetime1->diff($datetime2);
@@ -38,6 +39,15 @@
                     $voorTotaalCenten = $product["productPrice"] * $dagen;
                     $totaalCenten += $voorTotaalCenten;
                 } else {
+                    echo "<td>";
+                    ?>
+                        <form method="POST" enctype="multipart/form-data" action="">
+                            <input type="number"  name="newValue" value="<?php echo $product["productQuantity"]; ?>" onchange="this.form.submit()"/>
+                            <input type="hidden" name="aantalVeranderen" value="true">
+                            <input type="hidden" name="arrayID" value="<?php echo $product["productID"]; ?>">
+                        </form>
+                    <?php
+                    echo "</td>";
                     $prijs = $product["productPrice"] / 60;
                     $afgerond = number_format($prijs, 2, '.', ',');
                     $komma2 = str_replace('.', ',', $afgerond);

@@ -17,10 +17,10 @@
 
 
 if ($waarde == 1) {
-    $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Bezorgen' OR Retour = 'Retour'";
+    $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Bezorgen' OR BezorgOpties = 'Retour' ORDER BY adres.Postcode";
     $stmt = $db->prepare($setSql);
     $stmt->execute(array('Bezorgen'));
-    header("Content-Disposition: attachment; filename=Lijst_Bezorgen.xls");
+    header("Content-Disposition: attachment; filename=Lijst_Bezorgen_Ophalen.xls");
     } elseif ($waarde == 0) {
         $previous = "javascript:history.go(-1)";
         if(isset($_SERVER['HTTP_REFERER'])) {
@@ -36,15 +36,15 @@ if ($waarde == 1) {
         ;
         exit;
     }else {
-        $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Ophalen' OR Retour = 'Retour'";
+        $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Ophalen' OR BezorgOpties = 'Retour' ORDER BY adres.Postcode";
         $stmt = $db->prepare($setSql);
         $stmt->execute(array('Ophalen'));
-    header("Content-Disposition: attachment; filename=Lijst_ophalen.xls");
+    header("Content-Disposition: attachment; filename=Lijst_afhalen_terugbrengen.xls");
     }
 //    $setRec = mysqli_query($conn, $setSql);
     $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $columnHeader = "Naam" . "\t" . "Achternaam" . "\t" . "Factuurnummer" . "\t" . "Adres en huisnummer" . "\t" . "Postcode" . "\t" . "Totaalprijs";
+    $columnHeader = "Naam" . "\t" . "Achternaam" . "\t" . "Factuurnummer" . "\t" . "Adres en huisnummer" . "\t" . "Postcode" . "\t" . "Totaalprijs" . "\t" . "Status";
 
     $setData = '';
     $orderLength = sizeof($orders);
@@ -53,19 +53,39 @@ if ($waarde == 1) {
    for ($x = 1; $x <= $orderLength; $x++) {
        $rowData = '';
        foreach ($orders as $value) {
-           $bedrag = $value["totaalPrijs"];
-           $kommaTotaalPrijs = str_replace('.', ',', $bedrag);
-           $test = $value["Naam"] . "\t" .
-           $value["Tussenvoegsel"] . " " . $value["Achternaam"] . "\t" .
-           $value["orders_ID"] . "\t" .
-           $value["Adres"] . " " . $value["Huisnummer"] . "\t" .
-           $value["Postcode"] . "\t" .
-           $kommaTotaalPrijs;
-           $rowData .= $test . "\n";
+           $now = date("Y-m-d");
+           $test = $value["OrderDatum"];
+           $date1=date_create("$now");
+           $date2=date_create("$test");
+           $diff=date_diff($date1,$date2);
+           $verschil =  $diff->format("%R%a");
+           if( $verschil === '+0') {
+               $bedrag = $value["totaalPrijs"];
+               $kommaTotaalPrijs = str_replace('.', ',', $bedrag);
+               $test = $value["Naam"] . "\t" .
+               $value["Tussenvoegsel"] . " " . $value["Achternaam"] . "\t" .
+               $value["orders_ID"] . "\t" .
+               $value["Adres"] . " " . $value["Huisnummer"] . "\t" .
+               $value["Postcode"] . "\t" .
+               $kommaTotaalPrijs . "\t".
+               $value["BezorgOpties"] . "\t";
+               $rowData .= $test . "\n";
+               $x++;
+           } elseif ($value["Retour"] === 'Retour') {
+               $bedrag = $value["totaalPrijs"];
+               $kommaTotaalPrijs = str_replace('.', ',', $bedrag);
+               $test = $value["Naam"] . "\t" .
+               $value["Tussenvoegsel"] . " " . $value["Achternaam"] . "\t" .
+               $value["orders_ID"] . "\t" .
+               $value["Adres"] . " " . $value["Huisnummer"] . "\t" .
+               $value["Postcode"] . "\t" .
+               $kommaTotaalPrijs . "\t".
+               $value["Retour"] . "\t";
+               $rowData .= $test . "\n";
+               $x++;
+           }
        }
        $setData .= trim($rowData) . "\n";
-
-       $x++;
    }
 
     header("Content-type: application/vnd.ms-excel; name='exel'");

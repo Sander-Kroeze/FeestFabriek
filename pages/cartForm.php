@@ -4,15 +4,38 @@ include('cart.php');
 
 include('plaatsOrder.php');
 
-if (isset($_POST["submit_verwijder"])) {
-    $id = htmlspecialchars($_POST["productID"]);
-    unset($_SESSION["cart"][$id]);
+//  functie voor het verwijderen van een product ----------------------------------------------------------->
+function verwijder($idProd) {
+    unset($_SESSION["cart"][$idProd]);
     echo "
     <script>
     alert('Het product is verwijderd uit je winkelwagen!');
         location.href='index.php?page=cartForm';
       </script>
       ";
+}
+
+if (isset($_POST["submit_verwijder"])) {
+    $id = htmlspecialchars($_POST["productID"]);
+    verwijder($id);
+}
+
+if (isset($_POST["aantalVeranderen"])) {
+    $arrayID = htmlspecialchars($_POST["arrayID"]);
+    $newValue = htmlspecialchars($_POST["newValue"]);
+
+    if ($newValue < 1) {
+        verwijder($arrayID);
+    } else {
+        $_SESSION["cart"][$arrayID]["productQuantity"] = $newValue;
+        echo '
+        <script>
+        alert("Uw prodcut aantal is verhoogd\' \n U wordt door gestuurd naar de winkelwagen");
+        location.href=\'index.php?page=cartForm\';
+        </script>
+        '
+        ;
+    }
 }
 
 if ((isset($_POST["submit_order"]))) {

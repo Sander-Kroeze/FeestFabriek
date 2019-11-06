@@ -58,7 +58,8 @@ if (isset($_POST["betaalStatusSet"])) {
          "
         ;
     }
-    else{
+
+    else {
         echo
         "
         <script>
