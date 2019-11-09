@@ -14,8 +14,6 @@ if (isset($_SESSION["ID"])) {
         });
     </script>
 
-
-
     <h2>ADMIN</h2>
 
     <div class="cart-center">
@@ -24,7 +22,6 @@ if (isset($_SESSION["ID"])) {
                 <ul>
                     <li>
                         <a style="cursor:pointer;" class="nav_a" id="a" "><?php echo $_SESSION["USER"]; ?></a>
-
                     </li>
                     <li>
                         <a style="cursor:pointer;" class="nav_a <?php if ($_GET["page"] == 'formAdminPagina'){echo "active";}  if(empty($_GET["page"])) {echo "active";}  ?>" id="a" onclick="location.href='index.php?page=formAdminPagina'">Admin Pagina</a>
@@ -52,7 +49,6 @@ if (isset($_SESSION["ID"])) {
                 </form>
             </div>
             <div class="containerAdmin">
-
                 <form class="adminFrom1" method="POST" enctype="multipart/form-data" action="">
                     <h2>Geeft korting</h2>
                     <div class="row">
@@ -62,8 +58,6 @@ if (isset($_SESSION["ID"])) {
                         <input  class="prod-button" type="submit" id="submit" value=" Voeg toe " /><br>
                     </div>
                 </form>
-
-
                 <ul class="list-gpfrm" id="hdTuto_search"></ul>
             </div>
         </div>

@@ -2,8 +2,8 @@
 include("artikelDetailPagina.php");
 
 if (isset($_POST["submit_huur"])) {
-//  haalt de gegevens op van de form ----------------------------------------------------------->
 
+//  haalt de gegevens op van de form ----------------------------------------------------------->
     $datumVan = htmlspecialchars($_POST["datumVan"]);
     $datumTot = htmlspecialchars($_POST["datumTot"]);
     $prodID = htmlspecialchars($_POST["prod_id"]);
@@ -32,7 +32,7 @@ if (isset($_POST["submit_huur"])) {
             'productVerkoopwijze' => $prodVerkoopwijze,
             'datumVan' => $datumVan,
             'datumTot' => $datumTot,
-            'productQuantity' => $prodQuantity
+            'productQuantity' => $dagen
         );
 
 //      als de waarde sessionCart leeg is dan ----------------------------------------------------------->

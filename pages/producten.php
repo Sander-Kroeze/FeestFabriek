@@ -49,11 +49,22 @@
         ?>
         <div>
             <div class="product-tumb">
-                <img src="img/<?php echo $img;?>" alt="">
+                <img style="cursor: pointer" src="img/<?php echo $img;?>" onclick="window.open('index.php?page=artikelDetailForm&artikel=<?php echo $artikel["ID"]; ?>')">
             </div>
             <div class="product-details">
                 <span class="product-catagory"><?php echo $artikel["Categorie_naam"] . ", " . $artikel["Verkoopwijze_Naam"];?></span><br>
-                <a href='index.php?page=artikelDetailForm&artikel=<?php echo $artikel["ID"]; ?>'><?php echo $artikel["Naam"];?></a><br>
+                <?php
+                    if ($artikel["Onderhoud"] === '2') {
+                        ?>
+                        <a href=''>Dit product is in onderhoud</a><br>
+                <?php
+                    } else {
+                        ?>
+                        <a href='index.php?page=artikelDetailForm&artikel=<?php echo $artikel["ID"]; ?>'><?php echo $artikel["Naam"];?></a><br>
+                <?php
+                    }
+                ?>
+
                 <p>
                     <?php echo $artikel["Omschrijving"]; ?>
                 </p><br>
@@ -61,8 +72,21 @@
                 $prijs = $artikel["Prijs"] / 60;
                 $afgerond = number_format($prijs, 2, '.', ',');
                 $komma = str_replace('.', ',', $afgerond);
+
+                $weekPrijs = $afgerond * 6;
+                $weekKomma = str_replace('.', ',', $weekPrijs);
+                if ($artikel["Verkoopwijze_Naam"] === 'Huur') {
+                    ?>
+                    <p style="">Dag prijs: € <?php echo $komma; ?>    Week prijs: € <?php echo $weekKomma; ?></p>
+                    <?php
+                } else {
+                    ?>
+                    <p>Prijs: € <?php echo $komma; ?></p>
+                <?php
+                }
                 ?>
-                <p>Prijs: € <?php echo $komma; ?></p>
+
+
             </div>
         </div>
         <?php

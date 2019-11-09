@@ -19,23 +19,72 @@
             foreach($_SESSION["cart"] as $key => $product) {
                 $s = $product["productImage"];
                 echo "<tr>";
-                    echo "<td><img class='product-img' src='img/$s' style='width: 100px'></td>"; ?>
+                    echo "<td>";?>
+                    <img style="cursor: pointer; width: 100px" src="img/<?php echo $s;?>" onclick="window.open('index.php?page=artikelDetailForm&artikel=<?php echo $product["ID"]; ?>')">
+                <?php echo"</td>"?>
                     <td><a style="cursor: pointer" onclick="location.href='index.php?page=artikelDetailForm&artikel=<?php echo $product["productID"]; ?>'" "></a><?php echo $product["productName"]; ?></td>
                 <?php
 
 
                 if ($product["productVerkoopwijze"] == 'Huur') {
-                    echo "<td>" . $product["productQuantity"] . "</td>";
                     $datetime1 = new DateTime($product["datumVan"]);
                     $datetime2 = new DateTime($product["datumTot"]);
                     $interval = $datetime1->diff($datetime2);
                     $dagen = $interval->format('%a');
                     $prijs = $product["productPrice"] / 60;
-                    $afgerond = number_format($prijs, 2, '.', ',');
-                    $prod_prijs = $afgerond * $dagen;
-                    $komma = str_replace('.', ',', $prod_prijs);
-                    echo "<td>" . $komma . "</td>";
-                    $totaalPrijs += $prod_prijs;
+
+
+                        $day   = 24 * 3600;
+                        $from  = strtotime($product["datumVan"]);
+                        $to    = strtotime($product["datumTot"]) + $day;
+                        $diff  = abs($to - $from);
+                        $weeks = floor($diff / $day / 7);
+                        $days  = $diff / $day - $weeks * 7;
+                        $dagen = $days - 1;
+                        $out   = array();
+
+                        if ($weeks) {
+                            $out[] = "$weeks Week" . ($weeks > 1 ? 'en' : '');
+
+                            $afgerond = number_format($prijs, 2, '.', ',');
+                            $weekPrijs = $afgerond * 6;
+                            $totaalWeekPrijs = $weekPrijs * $weeks;
+                        }
+
+                        if ($dagen) {
+                            $out[] = "$dagen dag" . ($dagen > 1 ? 'en' : '');
+                            $totaalDagPrijs = $prijs * $dagen;
+                        }
+
+                        if (!empty($weeks) && !empty($dagen)) {
+                            $totaal = $totaalDagPrijs + $totaalWeekPrijs;
+                            $afgerondWD = number_format($totaal, 2, '.', ',');
+                            $totaalPrijsWD = str_replace('.', ',', $afgerondWD);
+                        } elseif (!empty($weeks) && empty($dagen)) {
+                            $totaal = $totaalWeekPrijs;
+                            $totaalPrijsWD = str_replace('.', ',', $totaal);
+                        } elseif (empty($weeks) &&!empty($dagen)) {
+                            $totaal = $totaalDagPrijs;
+                            $afgerondWD = number_format($totaal, 2, '.', ',');
+                            $totaalPrijsWD = str_replace('.', ',', $afgerondWD);
+                        }
+
+//                    $old = strtotime($product["datumTot"]);
+//                    $your_date = strtotime($product["datumVan"]);
+//                    $datediff = $old - $your_date;
+//
+//                    $aantalDagenZonderWeek =  round($datediff / (60 * 60 * 24));
+
+                    $datetime1 = new DateTime($product["datumTot"]);
+                    $datetime2 = new DateTime($product["datumVan"]);
+                    $interval = $datetime1->diff($datetime2);
+                    $dagen = $interval->format('%a');
+
+                    echo "<td>" .  implode(' en ', $out) . " </td>";
+
+
+                    echo "<td>" . $totaalPrijsWD . "</td>";
+                    $totaalPrijs += $totaal;
                     $voorTotaalCenten = $product["productPrice"] * $dagen;
                     $totaalCenten += $voorTotaalCenten;
                 } else {
@@ -92,7 +141,7 @@
             <input type="email" name="Email" placeholder="Email*" size="48" required>
             <br><br><br>
             <input type="text" name="Postcode" placeholder="Postcode*" required>
-            <input type="radio" name="BezorgMethode" value="Bezorgen" checked> Bezorgen
+            <input type="radio" name="BezorgMethode" value="Bezorgen" checked> Bezorgen (+ € 50,00)
             <input type="radio" name="BezorgMethode" value="Ophalen" checked> Ophalen
             <input type="text" name="Telefoonnummer" placeholder="Telefoonnummer*" required>
             <input type="text" name="Land" placeholder="Land*" required>
@@ -105,6 +154,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 

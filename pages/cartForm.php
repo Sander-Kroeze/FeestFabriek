@@ -2,7 +2,7 @@
 
 include('cart.php');
 
-include('plaatsOrder.php');
+include('phpFunctions/plaatsOrder.php');
 
 //  functie voor het verwijderen van een product ----------------------------------------------------------->
 function verwijder($idProd) {
@@ -21,6 +21,7 @@ if (isset($_POST["submit_verwijder"])) {
 }
 
 if (isset($_POST["aantalVeranderen"])) {
+
     $arrayID = htmlspecialchars($_POST["arrayID"]);
     $newValue = htmlspecialchars($_POST["newValue"]);
 
@@ -206,55 +207,5 @@ if ((isset($_POST["submit_order"]))) {
                 , $klant_Email, $klant_Aanhef, $klant_Telefoonnummer, $klant_BezorgMethode, $totaalBedrag);
         }
     }
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//hio

@@ -17,7 +17,14 @@ class plaatsOrder {
         $punt = str_replace(',', '.', $prijsTotaal);
         $bereken_korting = $punt / 100;
         $prijsVanKorting = $bereken_korting * $korting;
-        $totaalBedragKorting = $punt - $prijsVanKorting;
+        if ($bezorgMethode === 'Bezorgen') {
+            $plusBezorgKosten = $punt + 50.00;
+        } else {
+            $plusBezorgKosten = $punt;
+        }
+        $bereken_korting = $plusBezorgKosten / 100;
+        $prijsVanKorting = $bereken_korting * $korting;
+        $totaalBedragKorting = $plusBezorgKosten - $prijsVanKorting;
         $totaalRond = number_format($totaalBedragKorting, 2, '.', ',');
 
 //      zet gegevens in orders ----------------------------------------------------------->
@@ -41,7 +48,7 @@ class plaatsOrder {
 //          berekent de korting van de producten ----------------------------------------------------------->
             $artKorting = $prodPrice / 100 * $korting;
             $uiteindelijkeKorting = $prodPrice - $artKorting;
-            $artRond = number_format($uiteindelijkeKorting, 2, '.', ',');
+            $artRond = number_format($prodPrice, 2, '.', ',');
 
         //      Als de verkoopwijze huur is dan ----------------------------------------------------------->
                 if ($product["productVerkoopwijze"] == 'Huur') {
@@ -87,9 +94,17 @@ class plaatsOrder {
                 echo "test";
             }
 
+            $punt = str_replace(',', '.', $totaalBedrag);
+            if ($bezorgMethode === 'Bezorgen') {
+                $plusBezorgKosten = $punt + 50.00;
+            } else {
+                $plusBezorgKosten = $punt;
+            }
+            $totaalRond = number_format($plusBezorgKosten, 2, '.', ',');
+
             $datumNu = date("Y-m-d");
             $query = "INSERT INTO orders (Bezorgopties, Orderdatum, BezorgStatus, BetaalStatus, Klant_ID, Adres_ID, totaalPrijs)  
-            VALUES ('$bezorgMethode', '$datumNu', 'In Magazijn', 'Niet Betaald', '$klantID', '$AdresID', '$totaalBedrag')";
+            VALUES ('$bezorgMethode', '$datumNu', 'In Magazijn', 'Niet Betaald', '$klantID', '$AdresID', '$totaalRond')";
             $db->exec($query);
 
 //          pakt het laatste oder id ----------------------------------------------------------->
@@ -124,7 +139,7 @@ class plaatsOrder {
                 }
             }
 
-        $kommaTotaalPrijs = str_replace('.', ',', $totaalBedrag);
+        $kommaTotaalPrijs = str_replace('.', ',', $totaalRond);
         $text = 'Je bestelling is geplaatst \n Als je bestelling geleverd word moet je: € ' . $kommaTotaalPrijs. ' betalen.';
         session_destroy();
         echo
@@ -166,10 +181,18 @@ class plaatsOrder {
             $last_klantID = $db->lastInsertId();
         }
 
+        $punt = str_replace(',', '.', $totaalBedrag);
+        if ($bezorgMethode === 'Bezorgen') {
+            $plusBezorgKosten = $punt + 50.00;
+        } else {
+            $plusBezorgKosten = $punt;
+        }
+        $totaalRond = number_format($plusBezorgKosten, 2, '.', ',');
+
 //      insert order gegevens naar orders in de DB----------------------------------------------------------->
         $datumNu = date("Y-m-d");
         $query = "INSERT INTO orders (Bezorgopties, Orderdatum, BezorgStatus, BetaalStatus, Klant_ID, Adres_ID, totaalPrijs)  
-                    VALUES ('$bezorgMethode', '$datumNu', 'In Magazijn', 'Niet Betaald', '$last_klantID', '$AdresID', '$totaalBedrag')";
+                    VALUES ('$bezorgMethode', '$datumNu', 'In Magazijn', 'Niet Betaald', '$last_klantID', '$AdresID', '$totaalRond')";
         $db->exec($query);
 
 //      krijgt laatste order id----------------------------------------------------------->
@@ -185,6 +208,8 @@ class plaatsOrder {
                 $prodVan = $product["datumVan"];
                 $prodTot = $product["datumTot"];
 
+
+
 //              zet gegevens met een datum in de database----------------------------------------------------------->
                 $query = "INSERT INTO orderregel (Order_ID, Artikel_ID, Aantal, Price, BeginDatum, EindDatum)  
                     VALUES ('$last_orderID', '$prodID', '$prodQuantity', '$prodPrice', '$prodVan', '$prodTot')";
@@ -198,7 +223,7 @@ class plaatsOrder {
             }
         }
 
-        $kommaTotaalPrijs = str_replace('.', ',', $totaalBedrag);
+        $kommaTotaalPrijs = str_replace('.', ',', $totaalRond);
         $text = 'Je bestelling is geplaatst \n Als je bestelling geleverd word moet je: € ' . $kommaTotaalPrijs. ' betalen.';
         session_destroy();
         echo
