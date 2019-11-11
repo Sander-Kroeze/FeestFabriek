@@ -112,11 +112,20 @@ if (isset($_SESSION["ID"])) {
                                         <option value="Retour">Op Retour</option>
                                         <option value="Retour Bezorgd">Retour Bezorgd</option>
                                         <?php
-                                    } else {
+                                    } elseif ($order["BezorgStatus"] === 'Bezorgd') {
                                         ?>
-                                        <option value="Bezorgd"selected>Bezorgd</option>
-                                        <option value="Onderweg" >Onderweg</option>
+                                        <option value="Onderweg">Onderweg</option>
                                         <option value="In Magazijn" >In Magazijn</option>
+                                        <option value="Bezorgd" selected>Bezorgd</option>
+                                        <option value="Retour">Op Retour</option>
+                                        <option value="Retour Bezorgd">Retour Bezorgd</option>
+                                        <?php
+                                    }
+                                    else {
+                                        ?>
+                                        <option value="Bezorgd">Bezorgd</option>
+                                        <option value="Onderweg" >Onderweg</option>
+                                        <option value="In Magazijn" selected>In Magazijn</option>
                                         <option value="Retour" >Op Retour</option>
                                         <option value="Retour Bezorgd">Retour Bezorgd</option>
                                         <?php

@@ -79,6 +79,17 @@ if ((isset($_POST["submit_order"]))) {
         exit;
     }
 
+    if (!isset($_SESSION["cart"])) {
+        echo
+        "
+        <script>
+        alert('je winkelwagen is leeg!');
+        </script>
+        "
+        ;
+        exit;
+    }
+
 //  haalt gegevens uit de databse op basis van het mail adres ----------------------------------------------------------->
     $sql = "SELECT * FROM klant WHERE Email = '$klant_Email'";
     $stmt = $db->prepare($sql);
