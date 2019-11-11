@@ -13,9 +13,8 @@
 <div class="main">
     <nav class="navigation">
         <ul>
-<!--            <li><img src="img/logo_transparent.png" width="55px"></li>-->
             <li>
-            <img src="img/logo_transparent.png" width="55px">
+                <img style="cursor: pointer" width="55px" src="img/logo_transparent.png" onclick="window.open('index.php?page=home')">
             </li>
             <li>
                 <a style="cursor:pointer;" class="nav_a <?php if ($_GET["page"] == 'home'){echo "active";}  if(empty($_GET["page"])) {echo "active";}  ?>" id="a" onclick="location.href='index.php?page=home'">Home</a>

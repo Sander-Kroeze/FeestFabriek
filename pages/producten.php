@@ -38,8 +38,6 @@
 
     }
 
-
-    //    $query = "SELECT * FROM artikel";
     $stmt = $db->prepare($query);
     $stmt->execute(array());
     $artikelen = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -56,7 +54,7 @@
                 <?php
                     if ($artikel["Onderhoud"] === '2') {
                         ?>
-                        <a href=''>Dit product is in onderhoud</a><br>
+                        <a style="color: red" href=''>Dit product is in onderhoud</a><br>
                 <?php
                     } else {
                         ?>
@@ -64,7 +62,6 @@
                 <?php
                     }
                 ?>
-
                 <p>
                     <?php echo $artikel["Omschrijving"]; ?>
                 </p><br>
@@ -85,8 +82,6 @@
                 <?php
                 }
                 ?>
-
-
             </div>
         </div>
         <?php

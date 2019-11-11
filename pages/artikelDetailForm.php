@@ -76,8 +76,6 @@ if (isset($_POST["submit_huur"])) {
         exit;
     }
 
-
-
 } else if (isset($_POST["submit_betaal"])) {
 
 //  haalt gegevens op van de form ----------------------------------------------------------->

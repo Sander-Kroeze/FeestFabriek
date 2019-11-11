@@ -29,7 +29,7 @@ header("Content-type: application/vnd.ms-word");
 header("Content-Type: application/force-download");
 header("Content-Type: application/octet-stream");
 header("Content-Type: application/download");
-header("Content-Disposition: attachment; Filename=printorders.doc");
+
 
 //  loopt door de orders en geeft waardes mee ----------------------------------------------------------->
     foreach ($orders as $order) {
@@ -45,6 +45,7 @@ header("Content-Disposition: attachment; Filename=printorders.doc");
         $korting = $order["Korting"];
 
     }
+header("Content-Disposition: attachment; Filename=Factuur_nr_$id.doc");
 
 
     $date = new DateTime($bestDatum);

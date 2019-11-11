@@ -17,7 +17,6 @@ foreach ($artikelen as $artikel) {
                 <br><img class="product-img" src="img/<?php echo $s;?>" alt=""><br>
                 <div class="product-form">
                     <?php
-
                     $nu = date("Y-m-d");
                     $now = time(); // or your date as well
                     $myDate = strtotime("2019-10-30");

@@ -77,19 +77,6 @@ if (isset($_SESSION["ID"])) {
                             </form>
                         </td>
                         <td>
-                            <?php
-                            $now = date("Y-m-d");
-                            $test = $order["OrderDatum"];
-                            $date1=date_create("$now");
-                            $date2=date_create("$test");
-                            $diff=date_diff($date1,$date2);
-                            $verschil =  $diff->format("%R%a");
-                            if( $verschil === '+1') {
-                                echo $verschil;
-                            } else {
-                                echo $verschil;
-                            }
-                            ?>
                             <form action="" method="POST" enctype="multipart/form-data">
                                 <select class="test" name="bezorgStatus" onchange='this.form.submit()'>
                                     <?php

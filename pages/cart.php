@@ -69,12 +69,6 @@
                             $totaalPrijsWD = str_replace('.', ',', $afgerondWD);
                         }
 
-//                    $old = strtotime($product["datumTot"]);
-//                    $your_date = strtotime($product["datumVan"]);
-//                    $datediff = $old - $your_date;
-//
-//                    $aantalDagenZonderWeek =  round($datediff / (60 * 60 * 24));
-
                     $datetime1 = new DateTime($product["datumTot"]);
                     $datetime2 = new DateTime($product["datumVan"]);
                     $interval = $datetime1->diff($datetime2);
