@@ -33,7 +33,7 @@ if (isset($_SESSION["ID"])) {
                     <th>Bezorg Methode</th>
                     <th>Prijs</th>
                     <th>Betaal Status</th>
-                    <th>Status</th>
+                    <th>Bezorg status</th>
                     <th>Factuur</th>
                 </tr>
                 <?php

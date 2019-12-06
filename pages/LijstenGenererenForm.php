@@ -20,6 +20,10 @@ if ($waarde == 1) {
     $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Bezorgen' OR BezorgOpties = 'Retour' ORDER BY adres.Postcode";
     $stmt = $db->prepare($setSql);
     $stmt->execute(array('Bezorgen'));
+
+    $connection = mysqli_connect("localhost", "root", "",
+        "feestfabriek");
+    $result = mysqli_query($connection, $setSql);
     header("Content-Disposition: attachment; filename=Lijst_Bezorgen_Ophalen.xls");
     } elseif ($waarde == 0) {
         $previous = "javascript:history.go(-1)";
@@ -39,6 +43,9 @@ if ($waarde == 1) {
         $setSql = "SELECT * FROM ((orders INNER JOIN klant ON klant.ID = orders.Klant_ID) INNER JOIN adres ON adres.adresID = orders.Adres_ID) WHERE `BezorgOpties` = 'Ophalen' OR BezorgOpties = 'Retour' ORDER BY adres.Postcode";
         $stmt = $db->prepare($setSql);
         $stmt->execute(array('Ophalen'));
+    $connection = mysqli_connect("localhost", "root", "",
+        "feestfabriek");
+    $result = mysqli_query($connection, $setSql);
     header("Content-Disposition: attachment; filename=Lijst_afhalen_terugbrengen.xls");
     }
 //    $setRec = mysqli_query($conn, $setSql);
@@ -48,9 +55,11 @@ if ($waarde == 1) {
 
     $setData = '';
     $orderLength = sizeof($orders);
+$row = mysqli_num_rows($result);
 
 
-   for ($x = 1; $x <= $orderLength; $x++) {
+
+for ($x = 0; $x <=$row; $x++) {
        $rowData = '';
        foreach ($orders as $value) {
            $now = date("Y-m-d");
@@ -60,6 +69,7 @@ if ($waarde == 1) {
            $diff=date_diff($date1,$date2);
            $verschil =  $diff->format("%R%a");
            if( $verschil === '+0') {
+
                $bedrag = $value["totaalPrijs"];
                $kommaTotaalPrijs = str_replace('.', ',', $bedrag);
                $test = $value["Naam"] . "\t" .
@@ -69,6 +79,7 @@ if ($waarde == 1) {
                $value["Postcode"] . "\t" .
                $kommaTotaalPrijs . "\t".
                $value["BezorgOpties"] . "\t";
+
                $rowData .= $test . "\n";
                $x++;
            } elseif ($value["Retour"] === 'Retour') {

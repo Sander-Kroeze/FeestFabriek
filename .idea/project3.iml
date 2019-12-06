@@ -6,5 +6,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="code" />
     <orderEntry type="module" module-name="FFF" />
+    <orderEntry type="module" module-name="appWill" />
+    <orderEntry type="module" module-name="BEP" />
+    <orderEntry type="module" module-name="Project 2" />
+    <orderEntry type="module" module-name="De_Schimmel" />
   </component>
 </module>

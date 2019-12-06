@@ -23,14 +23,15 @@ foreach ($artikelen as $artikel) {
                     $your_date = strtotime("2019-11-20");
                     $datediff = $your_date - $myDate;
 //                  echo round($datediff / (60 * 60 * 24));
-                    $minBestelDatum =  date('Y-m-d', strtotime(' + 1 days'));
+                    $morgenBestelDatum =  date('Y-m-d', strtotime(' + 1 days'));
+                    $minBestelDatum =  date('Y-m-d', strtotime(' + 2 days'));
 
                     if ($artikel["Verkoopwijze_Naam"] == "Huur") {
                         ?>
                         <form method="POST" enctype="multipart/form-data" action="">
                             <div class="form-left">
                                 <p>Huren van</p>
-                                <input type="date" name="datumVan" min="<?php echo $nu; ?>" required>
+                                <input type="date" name="datumVan" min="<?php echo $morgenBestelDatum; ?>" required>
                                 <p>Huren tot</p>
                                 <input type="date" name="datumTot" min="<?php echo $minBestelDatum; ?>" required>
                             </div>

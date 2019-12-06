@@ -17,9 +17,31 @@ if (isset($_POST["submit_huur"])) {
     $datetime1 = new DateTime($datumVan);
     $datetime2 = new DateTime($datumTot);
     $interval = $datetime1->diff($datetime2);
-    echo $interval->format('%R%a days');
+//    echo $interval->format('%R%a days');
 
     $dagen = $interval->format('%a');
+
+    $nu = date("Y-m-d");
+    $now = time(); // or your date as well
+    $myDate = strtotime("2019-10-30");
+    $your_date = strtotime("2019-11-20");
+    $datediff = $your_date - $myDate;
+//                  echo round($datediff / (60 * 60 * 24));
+    $morgenBestelDatum =  date('Y-m-d', strtotime(' + 1 days'));
+    $minBestelDatum =  date('Y-m-d', strtotime(' + 2 days'));
+
+
+    $now = date("Y-m-d");
+    $date1 = date_create("$morgenBestelDatum");
+    $date2 = date_create("$datumVan");
+    $diff = date_diff($date1, $date2);
+    $verschil = $diff->format("%R%a");
+
+    if ($verschil  <= '-1') {
+        echo "<script> alert('Uw datum klopt niet, u kunt geen oude datums en vandaag selecteren' +
+            ' U wordt terug gestuurd'); location.href='index.php?page=artikelDetailForm&artikel=$prodID';</script>";
+        exit;
+    }
 
 //  controleerd of datumVan kleiner of gelijk is aan datumTot ----------------------------------------------------------->
     if ($datumVan <= $datumTot) {

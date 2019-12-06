@@ -53,7 +53,7 @@ if (isset($_SESSION["ID"])) {
                     <h2>Geeft korting</h2>
                     <div class="row">
                         <input type="email" name="email" id="email" placeholder="Vul een klant email in">
-                        <input type="number" name="korting" placeholder="5" min="5" max="100"/>
+                        <input type="number" name="korting" placeholder="5" min="0" max="100"/>
                         <input type="hidden"  name="submit_korting" value="true" />
                         <input  class="prod-button" type="submit" id="submit" value=" Voeg toe " /><br>
                     </div>
